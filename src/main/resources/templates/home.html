@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+  <title>Expense Tracker</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --primary: #3b82f6;
+      --secondary: #8b5cf6;
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-light);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(15, 23, 42, 0.8) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 1rem 2rem;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--primary) !important;
+    }
+
+    .btn-custom {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Background decorative elements */
+    .blob-1 {
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: var(--primary);
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
+      animation: float 8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .blob-2 {
+      position: absolute;
+      bottom: 10%;
+      right: 10%;
+      width: 500px;
+      height: 500px;
+      background: var(--secondary);
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+      animation: float 10s ease-in-out infinite reverse;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-30px) scale(1.05);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .hero-content h1 {
+      font-size: 4.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      background: linear-gradient(to right, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-content p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem auto;
+      line-height: 1.6;
+    }
+
+    /* Glassmorphism Card */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 3rem;
+      margin-top: 3rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">ExpenseTracker</a>
+      <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Home</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <a class="btn-custom" href="login">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="blob-1"></div>
+    <div class="blob-2"></div>
+    <div class="container hero-content">
+      <h1>Master Your Money<br>With Clarity.</h1>
+      <p>Ever wondered where your money goes each month? Gain control over your finances with intelligent tracking,
+        beautiful analytics, and seamless budgeting. Join the journey to financial freedom.</p>
+      <a href="login" class="btn-custom" style="padding: 1rem 3rem; font-size: 1.25rem;">Get Started Now</a>
+
+      <div class="glass-card mx-auto" style="max-width: 900px;">
+        <div class="row text-center text-white">
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h3 class="fw-bold text-primary mb-2">Track</h3>
+            <p class="text-muted mb-0">Log expenses instantly with a sleek interface designed for speed.</p>
+          </div>
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h3 class="fw-bold text-secondary mb-2">Analyze</h3>
+            <p class="text-muted mb-0">Understand spending trends through dynamic, beautiful charts.</p>
+          </div>
+          <div class="col-md-4">
+            <h3 class="fw-bold text-info mb-2">Grow</h3>
+            <p class="text-muted mb-0">Set budgets, reach goals, and grow your wealth seamlessly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

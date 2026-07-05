@@ -1,0 +1,11 @@
+target/
+.metadata/
+.settings/
+.classpath
+.project
+*.log
+output.txt
+.DS_Store
+.idea/
+*.iml
+ExpenseTracker/
