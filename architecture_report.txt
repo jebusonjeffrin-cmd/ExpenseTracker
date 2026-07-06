@@ -1,0 +1,103 @@
+================================================================================
+                    EXPENSE TRACKER - ARCHITECTURE & PROJECT REPORT
+================================================================================
+
+1. PROJECT OVERVIEW
+-------------------
+The Expense Tracker is a full-stack Java web application designed to help users 
+register, log in, and track their personal finances. Users can record expenses, 
+categorize them, filter records by month and year, and visualize spending via 
+bar charts.
+
+2. TECHNOLOGY STACK
+-------------------
+Architecture Pattern: Model-View-Controller (MVC)
+
+* Backend:
+  - Framework: Spring Boot 2.7.5
+  - Language: Java (JDK 11 / 17)
+  - Security: Spring Security (Authentication, WebSecurityConfigurerAdapter)
+  - ORM: Spring Data JPA (Hibernate)
+
+* Database:
+  - Current: H2 Database (In-Memory Database for rapid development)
+  - Previously configured for: MySQL (Localhost, port 3306)
+
+* Frontend / View Layer:
+  - Template Engine: Thymeleaf
+  - Styling: Custom Vanilla CSS (Modern Light Green/White Glassmorphism Theme) 
+    & Bootstrap 5.0.2
+  - Icons: FontAwesome
+  - Data Visualization: Chart.js (HTML5 Canvas)
+
+* Build Tool:
+  - Maven
+
+3. SYSTEM ARCHITECTURE (LAYERED DESIGN)
+---------------------------------------
+The application follows a standard N-Tier Spring Architecture:
+
+A. Presentation Layer (Frontend / Thymeleaf + Controller)
+   - Views (.html files in src/main/resources/templates/):
+       - home.html (Landing page)
+       - Login.html, Registration.html (Security portals)
+       - dashboard.html (User dashboard)
+       - ExpenseList.html, ExpenseForm.html, ExpenseFormEdit.html (CRUD forms)
+       - chart.html, ExpenseChart.html (Data visualization)
+   - Controllers (com.expense.controller):
+       - `ExpenseController.java`: Intercepts client HTTP requests (GET, POST), 
+         extracts parameters, validates principal/user tokens, delegates data 
+         processing to the Service Layer, and returns ModelAndView or String references 
+         to Thymeleaf templates.
+
+B. Service Layer (Business Logic)
+   - Services (com.expense.service):
+       - `ExpenseService.java`: Evaluates query inputs, executes filters by date/year, 
+         applies timezone formatting (java.sql.Date -> java.util.Date instantiation), 
+         and aggregates data (calculating monthly expense totals for charts).
+       - User authentication services: Handles BCrypt password encoding during  
+         signup and authenticates returning users.
+
+C. Data Access Layer (Repository)
+   - Repositories (com.expense.repository):
+       - `ExpenseRepository.java`, `UserRepository.java`: Interfaces extending 
+         `JpaRepository`. They generate automatic SQL queries based on method names 
+         (e.g., `findAllByUserEmail`, `findByMonthAndYear`).
+
+D. Domain Model Layer (Entities)
+   - Entities (com.expense.entity):
+       - `Expense.java`: Maps to the expenses table (Amount, Category, Date, etc.)
+       - `user.java` (table 'users'): Maps to the users table (Name, Email, password)
+       - Entities are connected by JPA relational connections (e.g., @ManyToOne 
+         mapping an Expense to a specific user).
+
+4. SECURITY INFRASTRUCTURE
+--------------------------
+- Authentication: Handled securely via Spring Security. Endpoints such as `/dashboard`  
+  or `/available_expenses` require authentication. Unauthenticated requests are redirected 
+  to `/login`.
+- Input Protection: Form endpoints check User Principal and validate inputs to prevent 
+  malicious submissions or SQL injection (managed by JPA).
+- Cross-Site Request Forgery (CSRF): Spring Security enables CSRF validation by 
+  default on Thymeleaf POST forms.
+
+5. RECENT UPDATES & BUG FIXES
+-----------------------------
+* Database Transition: Switched from a failing local MySQL server to seamlessly 
+  use an H2 embedded memory database via application.properties POM configuration.
+* Reserved Keyword Fix: Renamed the User table mapping (@Table(name="users")) to 
+  avoid H2 'USER' SQL syntax constraint violations during creation.
+* UI Overhaul: Rearchitected all 9 HTML views to embrace a cohesive white-and-light-green 
+  card-based aesthetic featuring CSS backdrop-filters, custom micro-animations, 
+  and Bootstrap utilities.
+* Chart Bug Fixes: 
+  - Overrode Hibernate's `java.sql.Date` casting that triggered an UnsupportedOperationException
+    when attempting to use `toInstant()`. 
+  - Restructured `ExpenseController` parameter validation to gracefull handle empty 
+    User 'Year' inputs via `Integer` casting and HTML5 `required` tags, 
+    eliminating Spring Whitelabel (500/400) Exceptions.
+
+6. CONCLUSION
+-------------
+The application correctly embraces established continuous-integration patterns within the 
+Spring ecosystem, proving reliable user isolation for expense tracking and stable routing.

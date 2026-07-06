@@ -4,77 +4,75 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     crossorigin="anonymous">
   <title>Expense Tracker</title>
   <style>
     :root {
-      --bg-color: #0f172a;
-      --primary: #3b82f6;
-      --secondary: #8b5cf6;
-      --text-light: #f8fafc;
-      --text-muted: #94a3b8;
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
+      --bg-color: #f4fcf4;
+      --card-bg: #ffffff;
+      --primary: #22c55e;
+      --primary-hover: #16a34a;
+      --secondary: #dcfce7;
+      --text-dark: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
     }
 
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg-color);
-      color: var(--text-light);
+      color: var(--text-dark);
       margin: 0;
-      padding: 0;
-      overflow-x: hidden;
+      padding-top: 80px;
     }
 
-    /* Navbar */
     .navbar {
-      background: rgba(15, 23, 42, 0.8) !important;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--glass-border);
-      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      padding: 0.8rem 2rem;
     }
 
     .navbar-brand {
       font-weight: 800;
+      color: var(--primary) !important;
       font-size: 1.5rem;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .nav-link {
-      color: var(--text-light) !important;
+      color: var(--text-muted) !important;
       font-weight: 600;
-      transition: color 0.3s ease;
+      transition: all 0.3s;
     }
 
-    .nav-link:hover {
+    .nav-link:hover,
+    .nav-link.active {
       color: var(--primary) !important;
     }
 
     .btn-custom {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background-color: var(--primary);
+      color: white !important;
       border: none;
-      color: white;
-      padding: 0.5rem 1.5rem;
       border-radius: 50px;
+      padding: 0.5rem 1.5rem;
       font-weight: 600;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s;
       text-decoration: none;
     }
 
     .btn-custom:hover {
+      background-color: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
-      color: white;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
-    /* Hero Section */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: calc(100vh - 80px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -83,57 +81,37 @@
       overflow: hidden;
     }
 
-    /* Background decorative elements */
     .blob-1 {
       position: absolute;
-      top: 20%;
-      left: 10%;
+      top: 10%;
+      left: 5%;
       width: 400px;
       height: 400px;
-      background: var(--primary);
+      background: var(--secondary);
       border-radius: 50%;
       filter: blur(100px);
-      opacity: 0.3;
-      animation: float 8s ease-in-out infinite;
       z-index: -1;
+      opacity: 0.8;
     }
 
     .blob-2 {
       position: absolute;
       bottom: 10%;
-      right: 10%;
+      right: 5%;
       width: 500px;
       height: 500px;
-      background: var(--secondary);
+      background: #bbf7d0;
       border-radius: 50%;
       filter: blur(120px);
-      opacity: 0.3;
-      animation: float 10s ease-in-out infinite reverse;
       z-index: -1;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0) scale(1);
-      }
-
-      50% {
-        transform: translateY(-30px) scale(1.05);
-      }
-
-      100% {
-        transform: translateY(0) scale(1);
-      }
+      opacity: 0.6;
     }
 
     .hero-content h1 {
       font-size: 4.5rem;
       font-weight: 800;
+      color: var(--text-dark);
       margin-bottom: 1.5rem;
-      line-height: 1.2;
-      background: linear-gradient(to right, #fff, #cbd5e1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .hero-content p {
@@ -144,37 +122,34 @@
       line-height: 1.6;
     }
 
-    /* Glassmorphism Card */
-    .glass-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
+    .card-custom {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
       padding: 3rem;
       margin-top: 3rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
-      position: relative;
-      z-index: 10;
+      transition: transform 0.3s;
     }
 
-    .glass-card:hover {
-      transform: translateY(-5px);
+    .card-custom:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
     }
   </style>
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
+    <div class="container-fluid">
       <a class="navbar-brand" href="#">ExpenseTracker</a>
-      <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/home">Home</a>
+            <a class="nav-link active" href="/home">Home</a>
           </li>
         </ul>
         <div class="d-flex">
@@ -188,23 +163,23 @@
     <div class="blob-1"></div>
     <div class="blob-2"></div>
     <div class="container hero-content">
-      <h1>Master Your Money<br>With Clarity.</h1>
-      <p>Ever wondered where your money goes each month? Gain control over your finances with intelligent tracking,
-        beautiful analytics, and seamless budgeting. Join the journey to financial freedom.</p>
+      <h1>Master Your Money<br><span style="color: var(--primary);">With Clarity.</span></h1>
+      <p>Gain control over your finances with intelligent tracking, beautiful analytics, and seamless budgeting. Join
+        the journey to financial freedom.</p>
       <a href="login" class="btn-custom" style="padding: 1rem 3rem; font-size: 1.25rem;">Get Started Now</a>
 
-      <div class="glass-card mx-auto" style="max-width: 900px;">
-        <div class="row text-center text-white">
+      <div class="card-custom mx-auto" style="max-width: 900px;">
+        <div class="row text-center">
           <div class="col-md-4 mb-4 mb-md-0">
-            <h3 class="fw-bold text-primary mb-2">Track</h3>
+            <h3 class="fw-bold" style="color: var(--primary);">Track</h3>
             <p class="text-muted mb-0">Log expenses instantly with a sleek interface designed for speed.</p>
           </div>
           <div class="col-md-4 mb-4 mb-md-0">
-            <h3 class="fw-bold text-secondary mb-2">Analyze</h3>
+            <h3 class="fw-bold" style="color: #059669;">Analyze</h3>
             <p class="text-muted mb-0">Understand spending trends through dynamic, beautiful charts.</p>
           </div>
           <div class="col-md-4">
-            <h3 class="fw-bold text-info mb-2">Grow</h3>
+            <h3 class="fw-bold" style="color: #047857;">Grow</h3>
             <p class="text-muted mb-0">Set budgets, reach goals, and grow your wealth seamlessly.</p>
           </div>
         </div>
